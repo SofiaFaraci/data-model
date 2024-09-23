@@ -1,0 +1,144 @@
+<properties>
+  <ports>
+    <!-- Ports are either Boolean or numeric variables associated to messages exchanged by the elements
+    of the control architecture; only Boolean and numeric variables are allowed since these are the only
+    ones that can be used to build MTL expressions. -->
+    <ros_topic_publisher id="/BatteryDriverCmp/battery_status" type="sensor_msgs/BatteryState">
+      <port id="level" expr="_msg.percentage"/>
+    </ros_topic_publisher>
+    <ros_topic_publisher id="/PeopleDetectorFilterCmp/is_followed" type="Bool">
+      <port id="is_followed" expr="_msg.data"/>
+    </ros_topic_publisher>
+    <!-- event="request" means that is the call to the service that is associated to the boolean "alarm" -->
+    <!-- event="response" would associate an event to the response -->
+    <ros_service_client id="/AlarmCmp/sendAlarm" type="void" event="request">
+      <port id="alarm"/>
+    </ros_service_client>
+
+    <ros_service_client id="/RunTimer/tick" type="void" event="request">
+      <port id="runTimer"/>
+  </ros_service_client>
+  
+    <ros_service_client id="/SchedulerCmp/SetPoi" type="void" event="request">
+      <port id="setPoi" expr="_service.request.poi_number"/>
+    </ros_service_client>
+
+    <ros_service_client id="/BlackboardCmp/SetInt" type="void" event="request">
+      <port id="bb_field_name" expr="_service.request.field_name"/>
+    </ros_service_client>
+
+    <ros_action_client id="/NavigationCmp/GoToPoi" type="void" event="send_goal">
+      <port id="navigation_goal" expr="_action.goal.poi_number" /><!-- -->
+    </ros_action_client>
+
+    <ros_action_client id="/NavigationCmp/GoToPoi" type="void" event="feedback">
+      <port id="navigation_status" expr="_action.feedback.status" /><!-- -->
+    </ros_action_client>
+
+  </ports>  
+
+  <guarantee id="alarm-follows-battery-low">
+    <always>
+      <implies>
+        <leq>
+          <var refid="level"/>
+          <const>30</const>
+        </leq>
+        <eventually within="5">
+          <prop refid="alarm"/>
+        </eventually>
+      </implies>
+    </always>
+  </guarantee>
+
+  <guarantee id="checking-for-people-follows-people-not-present">
+    <always>
+      <implies>
+        <eq>
+          <var refid="is_followed"/>
+          <const>false</const>
+        </eq>
+        <eventually within="5">
+          <prop refid="runTimer"/>
+        </eventually>
+      </implies>
+    </always>
+  </guarantee>
+
+  <guarantee id="navigation-to-poi-1-follows-set-poi-1">
+    <always>
+      <implies>
+        <eq>
+          <var refid="setPoi"/>
+          <const>1</const>
+        </eq>
+        <eventually within="60">
+          <var refid="navigation_goal"/>
+          <const>1</const>
+        </eventually>
+      </implies>
+    </always>
+  </guarantee>
+
+  <guarantee id="reach-poi-1-within-time-limit-2">
+    <always>
+      <implies>
+        <eq>
+          <var refid="setPoi"/>
+          <const>1</const>
+        </eq>
+        <eventually within="60">
+          <var refid="navigation_status"/>
+          <const>reached</const>
+        </eventually>
+      </implies>
+    </always>
+  </guarantee>
+  
+  <guarantee id="set-poi-2-follows-poi-1-done">
+    <always>
+      <implies>
+        <eq>
+          <var refid="bb_field_name"/>
+          <const>PoiDone1</const>
+        </eq>
+        <eventually within="5">
+          <var refid="setPoi"/>
+          <const>2</const>
+        </eventually>
+      </implies>
+    </always>
+  </guarantee>
+
+  <guarantee id="reach-poi-1-within-time-limit">
+    <always>
+      <implies>
+        <eq>
+          <var refid="navigation_goal"/>
+          <const>1</const>
+        </eq>
+        <eventually within="60">
+          <var refid="navigation_status"/>
+          <const>reached</const>
+        </eventually>
+      </implies>
+    </always>
+  </guarantee>
+
+  <guarantee id="resume-navigation-if-interrupted">
+    <always>
+      <implies>
+        <eq>
+          <var refid="navigation_status"/>
+          <const>aborted</const>
+        </eq>
+        <eventually within="10">
+          <eq>
+            <var refid="navigation_status"/>
+            <const>moving</const>
+          </eq>
+        </eventually>
+      </implies>
+    </always>
+  </guarantee>
+</properties>

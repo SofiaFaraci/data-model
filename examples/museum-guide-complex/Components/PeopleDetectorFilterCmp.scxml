@@ -1,0 +1,32 @@
+<scxml
+  version="1.0"
+  xmlns="..."
+  datamodel="ecmascript"
+  name="PeopleDetectorFilterCmp"
+  initial="idle">
+
+	<datamodel>
+		<data id="is_followed" type="Bool" expr="true" />
+		<data id="counter" type="int32" expr="0" />
+	</datamodel>
+
+  <ros_topic_publisher topic="/PeopleDetectorFilterComponent/is_followed" type="std_msgs/Bool" />
+
+  <state id="idle">
+    <onentry>
+      <ros_topic_publish name="/PeopleDetectorFilterComponent/is_followed">
+        <assign location="is_followed" expr="(counter % 2) === 1"/>
+        <assign location="counter" expr="counter + 1"/>
+        <!-- <script>
+          random = (Math.floor(Math.random() * 100)) % 2; 
+          is_followed = random === 1; 
+        </script> -->
+        <field name="data" expr="is_followed" />
+      </ros_topic_publish>
+  </onentry>
+    <transition target="idle"/>
+  </state>
+
+</scxml>
+
+  

@@ -1,0 +1,29 @@
+<scxml
+  version="1.0"
+  xmlns="..."
+  datamodel="ecmascript"
+  name="BatteryCmp"
+  initial="idle">
+
+	<datamodel>
+		<data id="percentage" type="int32" expr="100" />
+    <!-- <data id="timer_duration" type="int32" expr="1000" /> --> <!--Timer duration in milliseconds -->
+	</datamodel>
+
+  <ros_topic_publisher topic="/BatteryComponent/battery_status" type="std_msgs/Int32" />
+
+  <state id="idle">
+    <onentry>
+      <!-- <send event="timer_expired" delayexpr="timer_duration + 'ms'" /> -->
+      <if condition="percentage &gt; 0" >
+				<assign location="percentage" expr="percentage - 1" />
+			</if>
+      <ros_topic_publish name="/BatteryComponent/battery_status">
+        <field name="data" expr="percentage" />
+      </ros_topic_publish>
+    </onentry>
+    <!-- <transition event="timer_expired" target="idle"/> -->
+    <transition target="idle"/>
+  </state>
+
+</scxml>

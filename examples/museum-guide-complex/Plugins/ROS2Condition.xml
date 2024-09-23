@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml 
+    initial="initial" 
+    version="1.0" 
+    name="ROS2Condition"
+    model_src=""
+    xmlns="http://www.w3.org/2005/07/scxml">
+
+    <datamodel>
+        <data id="SKILL_SUCCESS" type="int8" expr="0" />
+        <data id="SKILL_FAILURE" type="int8" expr="1" />
+    </datamodel>
+
+    <ros_service_client service="/SkillName/tick" type="bt_interfaces/TickCondition" />
+
+    <state id="idle">
+        <transition event="bt_tick" target="handle_response">
+            <ros_service_send_request service="/SkillName/tick"/>
+        </transition>
+    </state>
+
+    <state id="handle_response">
+        <ros_service_handle_response service="/SkillName/tick" cond="_service.response.status == SKILL_SUCCESS" target="idle" >
+            <send event="bt_success" />
+        </ros_service_handle_response>
+        <ros_service_handle_response service="/SkillName/tick" cond="_service.response.status == SKILL_FAILURE" target="idle" >
+            <send event="bt_failure" />
+        </ros_service_handle_response>
+    </state>
+
+</scxml>
+

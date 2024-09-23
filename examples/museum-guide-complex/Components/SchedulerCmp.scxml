@@ -1,0 +1,36 @@
+<scxml
+  version="1.0"
+  xmlns="..."
+  datamodel="ecmascript"
+  name="SchedulerCmp"
+  initial="idle">
+
+	<datamodel>
+    <data id="current_poi_number" type="int32" expr="1" />
+		<!-- <data id="current_poi_name" type="string" expr="poi1" /> -->
+	</datamodel>
+
+  <ros_service_server service="/SchedulerCmp/GetCurrentPoi" type="scheduler_interfaces/GetCurrentPoi"/>
+  <ros_service_server service="/SchedulerCmp/SetPoi" type="scheduler_interfaces/SetPoi"/>
+
+  <state id="idle">
+
+    <ros_service_handle_request id="/SchedulerCmp/GetCurrentPoi" target="idle">
+      <ros_service_send_response id="/SchedulerCmp/GetCurrentPoi">
+        <param name="poi_number" expr="current_poi_number"/>
+        <!-- <param name="poi_name" expr="current_poi_name"/> -->
+        <param name="is_ok" expr="true"/>
+      </ros_service_send_response>
+    </ros_service_handle_request>
+
+    <ros_service_handle_request id="/SchedulerCmp/SetPoi" target="idle">
+      <assign location="current_poi_number" expr="_service.request.poi_number"/>
+      <ros_service_send_response id="/SchedulerCmp/SetPoi">
+        <param name="is_ok" expr="true"/>
+      </ros_service_send_response>
+    </ros_service_handle_request>
+
+  </state>
+
+</scxml>
+

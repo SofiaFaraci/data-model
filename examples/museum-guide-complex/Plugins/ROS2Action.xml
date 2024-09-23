@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml 
+    initial="initial" 
+    version="1.0" 
+    name="ROS2Action"
+    model_src=""
+    xmlns="http://www.w3.org/2005/07/scxml">
+
+    <datamodel>
+        <data id="SKILL_SUCCESS" type="int8" expr="0" />
+        <data id="SKILL_FAILURE" type="int8" expr="1" />
+        <data id="SKILL_RUNNING" type="int8" expr="2" />
+    </datamodel>
+
+    <ros_service_client service="/SkillName/tick" type="bt_interfaces/TickAction" />
+    <ros_service_client service="/SkillName/halt" type="bt_interfaces/HaltAction" />
+
+    <state id="idle">
+        <transition event="bt_tick" target="handle_response_tick">
+            <ros_service_send_request service="/SkillName/tick"/>
+        </transition>
+        <transition event="bt_halt" target="handle_response_halt">
+            <ros_service_send_request service="/SkillName/halt"/>
+        </transition>
+    </state>
+
+    <state id="handle_response_tick">
+        <ros_service_handle_response service="/SkillName/tick" cond="_service.response.status == SKILL_SUCCESS" target="idle" >
+            <send event="bt_success" />
+        </ros_service_handle_response>
+        <ros_service_handle_response service="/SkillName/tick" cond="_service.response.status == SKILL_FAILURE" target="idle" >
+            <send event="bt_failure" />
+        </ros_service_handle_response>
+        <ros_service_handle_response service="/SkillName/tick" cond="_service.response.status == SKILL_RUNNING" target="idle" >
+            <send event="bt_running" />
+        </ros_service_handle_response>
+    </state>
+
+    <state id="handle_response_halt">
+        <ros_service_handle_response service="/SkillName/halt" target="idle" >
+            <send event="bt_halt_response" />
+        </ros_service_handle_response>
+    </state>
+
+</scxml>
+
+

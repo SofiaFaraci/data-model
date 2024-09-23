@@ -1,0 +1,50 @@
+<scxml
+  version="1.0"
+  xmlns="..."
+  datamodel="ecmascript"
+  name="NotifyUserCmp"
+  initial="idle">
+
+	<datamodel>
+    <data id="alarm_active" type="Bool" expr="false" />
+	</datamodel>
+
+  <ros_service_server service="/NotifyUserCmp/StartAlarm" type="timer_interfaces/StartAlarm"/>
+  <ros_service_server service="/NotifyUserCmp/StopAlarm" type="timer_interfaces/StopAlarm"/>
+  <ros_topic_publisher topic="/NotifyUserCmp/alarm" type="std_msgs/Bool" />
+
+  <state id="idle">
+    <ros_service_handle_request id="/NotifyUserCmp/StartAlarm" target="active">
+      <assign location="alarm_active" expr="true"/>
+      <ros_service_send_response id="/NotifyUserCmp/StartAlarm">
+        <param name="is_ok" expr="true"/>
+      </ros_service_send_response>
+    </ros_service_handle_request>
+    <ros_service_handle_request id="/NotifyUserCmp/StopAlarm" target="idle">
+      <assign location="alarm_active" expr="false"/>
+      <ros_service_send_response id="/NotifyUserCmp/StopAlarm">
+        <param name="is_ok" expr="true"/>
+      </ros_service_send_response>
+    </ros_service_handle_request>
+  </state>
+
+  <state id="active">
+    <onentry>
+      <ros_topic_publish name="/NotifyUserCmp/alarm">
+        <field name="data" expr="alarm_active" />
+      </ros_topic_publish>
+    </onentry>
+    <ros_service_handle_request id="/NotifyUserCmp/StopAlarm" target="idle">
+      <assign location="alarm_active" expr="false"/>
+      <ros_service_send_response id="/NotifyUserCmp/StopAlarm">
+        <param name="is_ok" expr="true"/>
+      </ros_service_send_response>
+    </ros_service_handle_request>
+    <ros_service_handle_request id="/NotifyUserCmp/StartAlarm" target="active">
+      <ros_service_send_response id="/NotifyUserCmp/StartAlarm">
+        <param name="is_ok" expr="true"/>
+      </ros_service_send_response>
+    </ros_service_handle_request>
+  </state>
+
+</scxml>

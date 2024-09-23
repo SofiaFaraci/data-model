@@ -1,0 +1,41 @@
+<specification xmlns="..." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="...">
+
+  <model>
+
+    <taskPlan id="Policy" moc="bt" path="./Policy.xml"/> 
+
+    <plugins>
+      <plugin id="ROS2Condition" moc="fsm" path="../Plugin/ROS2Condition.scxml" />
+      <plugin id="ROS2Action" moc="fsm" path="../Plugin/ROS2Action.scxml" />
+    </plugins>
+  
+    <skills>
+      <skill id="GoToPoiActionSkill" moc="fsm" path="../Skills/GoToPoiActionSkill.scxml" />
+      <skill id="VisitorsFollowingRobotSkill" moc="fsm" path="../Skills/VisitorsFollowingRobotSkill.scxml" />
+      <skill id="IsCheckingForPeopleSkill" moc="fsm" path="../Skills/IsCheckingForPeopleSkill.scxml" />
+      <skill id="RunTimerSkill" moc="fsm" path="../Skills/RunTimerSkill.scxml" />
+      <skill id="WaitSkill" moc="fsm" path="../Skills/WaitSkill.scxml" />
+      <skill id="IsPoiDoneSkill" moc="fsm" path="../Skills/IsPoiDoneSkill.scxml" />
+      <skill id="SetPoiSkill" moc="fsm" path="../Skills/SetPoiSkill.scxml" />
+      <skill id="SetPoiDoneSkill" moc="fsm" path="../Skills/SetPoiDoneSkill.scxml" />
+      <skill id="BatteryLevelSkill" moc="fsm" path="../Skills/BatteryLevelSkill.scxml" />
+      <skill id="AlarmSkill" moc="fsm" path="../Skills/AlarmSkill.scxml" />
+    </skills>
+
+    <components>
+      <component id="BlackboardCmp" moc="fsm" path="../Components/BlackboardCmp.scxml" />
+      <component id="SchedulerCmp" moc="fsm" path="../Components/SchedulerCmp.scxml" />
+      <component id="NavigationCmp" moc="fsm" path="../Components/NavigationCmp.scxml" />
+      <component id="PeopleDetectorFilterCmp" moc="fsm" path="../Components/PeopleDetectorFilterCmp.scxml" />
+      <component id="TimerCmp" moc="fsm" path="../Components/TimerCmp.scxml" />
+      <component id="BatteryCmp" moc="fsm" path="../Components/BatteryCmp.scxml" />
+      <component id="NotifyUserCmp" moc="fsm" path="../Components/NotifyUserCmp.scxml" />
+    </components>
+ 
+  </model>
+
+  <properties path="../Properties/properties.xml"/>
+
+</specification>
+

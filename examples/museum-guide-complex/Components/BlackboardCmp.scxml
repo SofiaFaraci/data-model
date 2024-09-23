@@ -1,0 +1,79 @@
+<scxml
+  version="1.0"
+  xmlns="..."
+  datamodel="ecmascript"
+  name="BlackboardCmp"
+  initial="idle">
+
+	<datamodel>
+		<data id="isCheckingForPeople" type="int32" expr="0" />
+		<!-- <data id="field_name" type="string" expr="" /> -->
+		<data id="field_name" type="int32" expr="" />
+    <data id="value" type="int32" expr="0" />
+		<!-- <data id="saved_field_name_1" type="string" expr='"PoiDone1"' />
+		<data id="saved_field_name_2" type="string" expr='"PoiDone2"' /> -->
+		<data id="saved_field_name_1" type="int32" expr="1" />
+		<data id="saved_field_name_2" type="int32" expr="2" />
+		<data id="saved_value_1" type="int32" expr="0" />
+		<data id="saved_value_2" type="int32" expr="0" />
+	</datamodel>
+
+  <ros_service_server service="/BlackboardCmp/GetInt" type="blackboard_interfaces/GetInt"/>
+  <ros_service_server service="/BlackboardCmp/SetInt" type="blackboard_interfaces/SetInt"/>
+
+  <state id="idle">
+    <ros_service_handle_request id="/BlackboardCmp/GetInt" target="GetInt">
+      <assign location="field_name" expr="_service.request.field_name"/>
+    </ros_service_handle_request>
+    <ros_service_handle_request id="/BlackboardCmp/SetInt" target="SetInt">
+      <assign location="field_name" expr="_service.request.field_name"/>
+      <assign location="value" expr="_service.request.value"/>
+      <ros_service_send_response id="/BlackboardCmp/SetInt">
+        <param name="is_ok" expr="true"/>
+      </ros_service_send_response>
+    </ros_service_handle_request>
+  </state>
+
+  <state id="GetInt">
+    <onentry>
+      <if cond="field_name == saved_field_name_1">
+        <ros_service_send_response id="/BlackboardCmp/GetInt">
+          <param name="value" expr="saved_value_1"/>
+          <param name="is_ok" expr="true"/>
+        </ros_service_send_response>
+      <elseif cond="field_name == saved_field_name_2"/>
+        <ros_service_send_response id="/BlackboardCmp/GetInt">
+          <param name="value" expr="saved_value_2"/>
+          <param name="is_ok" expr="true"/>
+        </ros_service_send_response>
+      <else />
+        <ros_service_send_response id="/BlackboardCmp/GetInt">
+          <param name="is_ok" expr="false"/>
+        </ros_service_send_response>
+      </if>
+    </onentry>
+    <transition target="idle"/>
+  </state>
+
+  <state id="SetInt">
+    <onentry>
+      <if cond="field_name == saved_field_name_1">
+        <ros_service_send_response id="/BlackboardCmp/SetInt">
+          <assign location="saved_field_name_1" expr="value"/>
+          <param name="is_ok" expr="true"/>
+        </ros_service_send_response>
+      <elseif cond="field_name == saved_field_name_2"/>
+        <ros_service_send_response id="/BlackboardCmp/SetInt">
+          <assign location="saved_field_name_2" expr="value"/>
+          <param name="is_ok" expr="true"/>
+        </ros_service_send_response>
+      <else />
+        <ros_service_send_response id="/BlackboardCmp/SetInt">
+          <param name="is_ok" expr="false"/>
+        </ros_service_send_response>
+      </if>
+    </onentry>
+    <transition target="idle"/>
+  </state>
+
+</scxml>
