@@ -7,20 +7,20 @@
     <data id="counter_max" type="int32" expr="30000" /> 
 	</datamodel>
 
-  <ros_service_server service="/TimerCmp/StartTimer" type="timer_interfaces/StartTimer"/>
-  <ros_service_server service="/TimerCmp/IsTimerActive" type="timer_interfaces/IsTimerActive"/>
+  <ros_service_server service="/TimerCmp/StartTimer" type="timer_interfaces_dummy/StartTimer"/>
+  <ros_service_server service="/TimerCmp/IsTimerActive" type="timer_interfaces_dummy/IsTimerActive"/>
 
   <state id="idle">
-    <ros_service_handle_request id="/TimerCmp/StartTimer" target="active">
+    <ros_service_handle_request name="/TimerCmp/StartTimer" target="active">
       <assign location="timer_active" expr="true"/>
-      <ros_service_send_response id="/TimerCmp/StartTimer">
-        <param name="is_ok" expr="true"/>
+      <ros_service_send_response name="/TimerCmp/StartTimer">
+        <field name="is_ok" expr="true"/>
       </ros_service_send_response>
     </ros_service_handle_request>
-    <ros_service_handle_request id="/TimerCmp/IsTimerActive" target="idle">
-      <ros_service_send_response id="/TimerCmp/IsTimerActive">
-        <param name="is_ok" expr="true"/>
-        <param name="is_active" expr="timer_active"/>
+    <ros_service_handle_request name="/TimerCmp/IsTimerActive" target="idle">
+      <ros_service_send_response name="/TimerCmp/IsTimerActive">
+        <field name="is_ok" expr="true"/>
+        <field name="is_active" expr="timer_active"/>
       </ros_service_send_response>
     </ros_service_handle_request>
   </state>
@@ -30,16 +30,16 @@
       <!-- <send event="timer_expired" delayexpr="timer_duration + 'ms'" /> -->
       <assign location="counter" expr="counter+1"/>
     </onentry>
-    <ros_service_handle_request id="/TimerCmp/IsTimerActive" target="active">
-      <ros_service_send_response id="/TimerCmp/IsTimerActive">
-        <param name="is_ok" expr="true"/>
-        <param name="is_active" expr="timer_active"/>
+    <ros_service_handle_request name="/TimerCmp/IsTimerActive" target="active">
+      <ros_service_send_response name="/TimerCmp/IsTimerActive">
+        <field name="is_ok" expr="true"/>
+        <field name="is_active" expr="timer_active"/>
       </ros_service_send_response>
     </ros_service_handle_request>
   
-    <ros_service_handle_request id="/TimerCmp/StartTimer" target="active">
-      <ros_service_send_response id="/TimerCmp/StartTimer">
-        <param name="is_ok" expr="false"/> <!-- Can not start another timer if one is already active -->
+    <ros_service_handle_request name="/TimerCmp/StartTimer" target="active">
+      <ros_service_send_response name="/TimerCmp/StartTimer">
+        <field name="is_ok" expr="false"/> <!-- Can not start another timer if one is already active -->
       </ros_service_send_response>
     </ros_service_handle_request>
     <!-- <transition event="timer_expired" target="idle">
@@ -51,4 +51,3 @@
     </transition>
   </state>
 </scxml>
-

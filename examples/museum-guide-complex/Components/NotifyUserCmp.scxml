@@ -1,48 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <scxml
   version="1.0"
   xmlns="..."
   datamodel="ecmascript"
-  name="NotifyUserCmp"
+  name="NotifyUserComponent"
   initial="idle">
 
 	<datamodel>
-    <data id="alarm_active" type="Bool" expr="false" />
+    <data id="alarm_active" type="bool" expr="false" />
 	</datamodel>
 
-  <ros_service_server service="/NotifyUserCmp/StartAlarm" type="timer_interfaces/StartAlarm"/>
-  <ros_service_server service="/NotifyUserCmp/StopAlarm" type="timer_interfaces/StopAlarm"/>
-  <ros_topic_publisher topic="/NotifyUserCmp/alarm" type="std_msgs/Bool" />
+  <ros_service_server service_name="/NotifyUserComponent/StartAlarm" type="notify_user_interfaces_dummy/StartAlarm"/>
+  <!-- <ros_service_server service_name="/NotifyUserComponent/StopAlarm" type="notify_user_interfaces_dummy/StopAlarm"/> -->
+  <ros_topic_publisher topic="/NotifyUserComponent/alarm" type="std_msgs/Bool" />
 
   <state id="idle">
-    <ros_service_handle_request id="/NotifyUserCmp/StartAlarm" target="active">
+    <onentry>
+      <ros_topic_publish name="/NotifyUserComponent/alarm">
+        <field name="data" expr="false" />
+      </ros_topic_publish>
+    </onentry>
+    <ros_service_handle_request name="/NotifyUserComponent/StartAlarm" target="active">
       <assign location="alarm_active" expr="true"/>
-      <ros_service_send_response id="/NotifyUserCmp/StartAlarm">
-        <param name="is_ok" expr="true"/>
+      <ros_service_send_response name="/NotifyUserComponent/StartAlarm">
+        <field name="is_ok" expr="true"/>
       </ros_service_send_response>
     </ros_service_handle_request>
-    <ros_service_handle_request id="/NotifyUserCmp/StopAlarm" target="idle">
+    <!-- <ros_service_handle_request name="/NotifyUserComponent/StopAlarm" target="idle">
       <assign location="alarm_active" expr="false"/>
-      <ros_service_send_response id="/NotifyUserCmp/StopAlarm">
-        <param name="is_ok" expr="true"/>
+      <ros_service_send_response name="/NotifyUserComponent/StopAlarm">
+        <field name="is_ok" expr="true"/>
       </ros_service_send_response>
-    </ros_service_handle_request>
+    </ros_service_handle_request> -->
   </state>
 
   <state id="active">
     <onentry>
-      <ros_topic_publish name="/NotifyUserCmp/alarm">
-        <field name="data" expr="alarm_active" />
+      <ros_topic_publish name="/NotifyUserComponent/alarm">
+        <field name="data" expr="true" />
       </ros_topic_publish>
     </onentry>
-    <ros_service_handle_request id="/NotifyUserCmp/StopAlarm" target="idle">
+    <!-- <ros_service_handle_request name="/NotifyUserComponent/StopAlarm" target="idle">
       <assign location="alarm_active" expr="false"/>
-      <ros_service_send_response id="/NotifyUserCmp/StopAlarm">
-        <param name="is_ok" expr="true"/>
+      <ros_service_send_response name="/NotifyUserComponent/StopAlarm">
+        <field name="is_ok" expr="true"/>
       </ros_service_send_response>
-    </ros_service_handle_request>
-    <ros_service_handle_request id="/NotifyUserCmp/StartAlarm" target="active">
-      <ros_service_send_response id="/NotifyUserCmp/StartAlarm">
-        <param name="is_ok" expr="true"/>
+    </ros_service_handle_request> -->
+    <ros_service_handle_request name="/NotifyUserComponent/StartAlarm" target="active">
+      <ros_service_send_response name="/NotifyUserComponent/StartAlarm">
+        <field name="is_ok" expr="true"/>
       </ros_service_send_response>
     </ros_service_handle_request>
   </state>

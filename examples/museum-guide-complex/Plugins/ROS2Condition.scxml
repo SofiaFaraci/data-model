@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scxml 
-    initial="initial" 
+    initial="idle" 
     version="1.0" 
     name="ROS2Condition"
     model_src=""
     xmlns="http://www.w3.org/2005/07/scxml">
+
+    <bt_declare_port_in key="service_name" type="string" />
 
     <datamodel>
         <data id="SKILL_SUCCESS" type="int8" expr="0" />
         <data id="SKILL_FAILURE" type="int8" expr="1" />
     </datamodel>
 
-    <ros_service_client service="/SkillName/tick" type="bt_interfaces/TickCondition" />
+    <ros_service_client type="bt_interfaces_dummy/TickCondition" name="srv_name">
+        <service_name>
+            <bt_get_input key="service_name" />
+        </service_name>
+    </ros_service_client>
 
     <state id="idle">
         <transition event="bt_tick" target="handle_response">
-            <ros_service_send_request service="/SkillName/tick"/>
+            <ros_service_send_request name="srv_name"/>
         </transition>
     </state>
 
     <state id="handle_response">
-        <ros_service_handle_response service="/SkillName/tick" cond="_service.response.status == SKILL_SUCCESS" target="idle" >
+        <ros_service_handle_response name="srv_name" cond="_res.status == SKILL_SUCCESS" target="idle" >
             <send event="bt_success" />
         </ros_service_handle_response>
-        <ros_service_handle_response service="/SkillName/tick" cond="_service.response.status == SKILL_FAILURE" target="idle" >
+        <ros_service_handle_response name="srv_name" cond="_res.status == SKILL_FAILURE" target="idle" >
             <send event="bt_failure" />
         </ros_service_handle_response>
     </state>
 
 </scxml>
-

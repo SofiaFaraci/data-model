@@ -6,8 +6,8 @@
     <taskPlan id="Policy" moc="bt" path="./Policy.xml"/> 
 
     <plugins>
-      <plugin id="ROS2Condition" moc="fsm" path="../Plugin/ROS2Condition.scxml" />
-      <plugin id="ROS2Action" moc="fsm" path="../Plugin/ROS2Action.scxml" />
+      <plugin id="ROS2Condition" moc="fsm" path="../Plugins/ROS2Condition.scxml" />
+      <plugin id="ROS2Action" moc="fsm" path="../Plugins/ROS2Action.scxml" />
     </plugins>
   
     <skills>
@@ -38,4 +38,3 @@
   <properties path="../Properties/properties.xml"/>
 
 </specification>
-

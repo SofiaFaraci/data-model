@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <scxml
   version="1.0"
   xmlns="..."
@@ -15,7 +16,7 @@
   <state id="idle">
     <onentry>
       <!-- <send event="timer_expired" delayexpr="timer_duration + 'ms'" /> -->
-      <if condition="percentage &gt; 0" >
+      <if cond="percentage &gt; 0" >
 				<assign location="percentage" expr="percentage - 1" />
 			</if>
       <ros_topic_publish name="/BatteryComponent/battery_status">
