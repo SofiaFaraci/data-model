@@ -2,7 +2,7 @@
   version="1.0"
   xmlns="..."
   datamodel="ecmascript"
-  name="PeopleDetectorFilterCmp"
+  name="PeopleDetectorFilterComponent"
   initial="idle">
 
 	<datamodel>

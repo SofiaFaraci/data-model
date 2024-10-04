@@ -20,7 +20,7 @@
                     },
                     "right": {
                       "op": "=",
-                      "left": "topic_NotifyUserCmp_alarm_msg.ros_fields__data"
+                      "left": "topic_NotifyUserComponent_alarm_msg.ros_fields__data"
                       },
                       "right": true
                   }
@@ -32,32 +32,32 @@
           }
         },
         {
-        "name": "alarm-follows-battery-low",
-        "expression": {
-          "op": "filter",
-          "fun": "values",
-          "values": {
-            "op": "Pmin",
-            "exp": {
-              "op": "U",
-              "left": {
-                "op": "∨",
+          "name": "alarm-follows-battery-low",
+          "expression": {
+            "op": "filter",
+            "fun": "values",
+            "values": {
+              "op": "Pmin",
+              "exp": {
+                "op": "U",
                 "left": {
-                    "op": ">",
-                    "left": "topic_BatteryComponent__battery_status_msg.ros_fields__data",
-                    "right": 29
+                  "op": "∨",
+                  "left": {
+                      "op": ">",
+                      "left": "topic_BatteryComponent__battery_status_msg.ros_fields__data",
+                      "right": 26
+                  },
+                  "right": {
+                      "op": "¬",
+                      "exp": "topic_BatteryComponent__battery_status_msg.valid"
+                  }
                 },
-                "right": {
-                    "op": "¬",
-                    "exp": "topic_BatteryComponent__battery_status_msg.valid"
-                }
-              },
-              "right": "topic_NotifyUserComponent__alarm_msg.ros_fields__data"
+                "right": "topic_NotifyUserComponent__alarm_msg.ros_fields__data"
+            }
+          },
+          "states": {
+            "op": "initial"
           }
-        },
-        "states": {
-          "op": "initial"
-        }
       }
     }
     ]

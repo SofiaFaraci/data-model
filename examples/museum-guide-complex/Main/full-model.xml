@@ -24,13 +24,13 @@
     </skills>
 
     <components>
-      <component id="BlackboardCmp" moc="fsm" path="../Components/BlackboardCmp.scxml" />
-      <component id="SchedulerCmp" moc="fsm" path="../Components/SchedulerCmp.scxml" />
-      <component id="NavigationCmp" moc="fsm" path="../Components/NavigationCmp.scxml" />
-      <component id="PeopleDetectorFilterCmp" moc="fsm" path="../Components/PeopleDetectorFilterCmp.scxml" />
-      <component id="TimerCmp" moc="fsm" path="../Components/TimerCmp.scxml" />
-      <component id="BatteryCmp" moc="fsm" path="../Components/BatteryCmp.scxml" />
-      <component id="NotifyUserCmp" moc="fsm" path="../Components/NotifyUserCmp.scxml" />
+      <component id="BlackboardComponent" moc="fsm" path="../Components/BlackboardComponent.scxml" />
+      <component id="SchedulerComponent" moc="fsm" path="../Components/SchedulerComponent.scxml" />
+      <component id="NavigationComponent" moc="fsm" path="../Components/NavigationComponent.scxml" />
+      <component id="PeopleDetectorFilterComponent" moc="fsm" path="../Components/PeopleDetectorFilterComponent.scxml" />
+      <component id="TimerComponent" moc="fsm" path="../Components/TimerComponent.scxml" />
+      <component id="BatteryComponent" moc="fsm" path="../Components/BatteryComponent.scxml" />
+      <component id="NotifyUserComponent" moc="fsm" path="../Components/NotifyUserComponent.scxml" />
     </components>
  
   </model>

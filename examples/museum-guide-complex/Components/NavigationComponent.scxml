@@ -1,6 +1,6 @@
-<scxml initial="idle" version="1.0" name="NavigationCmp" model_src="" xmlns="http://www.w3.org/2005/07/scxml">
+<scxml initial="idle" version="1.0" name="NavigationComponent" model_src="" xmlns="http://www.w3.org/2005/07/scxml">
 
-    <ros_action_server name="act_srv" action_name="/NavigationCmp/GoToPoi" type="navigation_interfaces_dummy/GoToPoi" />
+    <ros_action_server name="act_srv" action_name="/NavigationComponent/GoToPoi" type="navigation_interfaces_dummy/GoToPoi" />
 
     <!--The action thread is a self-contained scxml entry, that will be translated to n. FSMs, depending on n_threads.-->
     <ros_action_thread name="act_srv" n_threads="1" initial="idle">

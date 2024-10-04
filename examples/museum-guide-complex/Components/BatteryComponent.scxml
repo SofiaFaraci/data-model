@@ -3,7 +3,7 @@
   version="1.0"
   xmlns="..."
   datamodel="ecmascript"
-  name="BatteryCmp"
+  name="BatteryComponent"
   initial="idle">
 
 	<datamodel>

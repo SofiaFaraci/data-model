@@ -12,8 +12,8 @@
     </behavior_tree>
 
     <node_models>
-        <input type="ros-scxml" src="../Components/BatteryCmp.scxml" />
-        <input type="ros-scxml" src="../Components/NotifyUserCmp.scxml" />
+        <input type="ros-scxml" src="../Components/BatteryComponent.scxml" />
+        <input type="ros-scxml" src="../Components/NotifyUserComponent.scxml" />
         <input type="ros-scxml" src="../Skills/BatteryLevelSkill.scxml" />
         <input type="ros-scxml" src="../Skills/AlarmSkill.scxml" />
     </node_models>
