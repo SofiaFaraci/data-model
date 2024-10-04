@@ -10,8 +10,8 @@
 		<!-- <data id="current_poi_name" type="string" expr="poi1" /> -->
 	</datamodel>
 
-  <ros_service_server service="/SchedulerCmp/GetCurrentPoi" type="scheduler_interfaces_dummy/GetCurrentPoi"/>
-  <ros_service_server service="/SchedulerCmp/SetPoi" type="scheduler_interfaces_dummy/SetPoi"/>
+  <ros_service_server service_name="/SchedulerCmp/GetCurrentPoi" type="scheduler_interfaces_dummy/GetCurrentPoi"/>
+  <ros_service_server service_name="/SchedulerCmp/SetPoi" type="scheduler_interfaces_dummy/SetPoi"/>
 
   <state id="idle">
 

@@ -1,14 +1,14 @@
 <scxml version="1.0" xmlns="..." datamodel="ecmascript" name="TimerCmp" initial="idle">
 
 	<datamodel>
-    <data id="timer_active" type="Bool" expr="false" />
+    <data id="timer_active" type="bool" expr="false" />
     <!-- <data id="timer_duration" type="int32" expr="30000" /> --> <!-- Timer duration in milliseconds -->
     <data id="counter" type="int32" expr="0" /> 
     <data id="counter_max" type="int32" expr="30000" /> 
 	</datamodel>
 
-  <ros_service_server service="/TimerCmp/StartTimer" type="timer_interfaces_dummy/StartTimer"/>
-  <ros_service_server service="/TimerCmp/IsTimerActive" type="timer_interfaces_dummy/IsTimerActive"/>
+  <ros_service_server service_name="/TimerCmp/StartTimer" type="timer_interfaces_dummy/StartTimer"/>
+  <ros_service_server service_name="/TimerCmp/IsTimerActive" type="timer_interfaces_dummy/IsTimerActive"/>
 
   <state id="idle">
     <ros_service_handle_request name="/TimerCmp/StartTimer" target="active">

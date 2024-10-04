@@ -12,7 +12,7 @@
     </datamodel>
 
     <!-- WaitSkill is a server for tick from the ROS2Action plugin-->
-    <ros_service_server service="/WaitSkill/tick" type ="bt_interfaces_dummy/TickAction"/>
+    <ros_service_server service_name="/WaitSkill/tick" type ="bt_interfaces_dummy/TickAction"/>
     <!-- WaitSkill is a server for halt from the ROS2Action plugin-->
     <!-- <ros_service_server service="/WaitSkill/halt" type ="bt_interfaces_dummy/HaltAction"/> -->
 

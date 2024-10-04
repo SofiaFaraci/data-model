@@ -30,7 +30,7 @@
             <ros_action_handle_thread_start name="act_srv" target="execute">
                 <assign location="goal_id" expr="_action.goal_id" />
                 <!-- <assign location="poi_name" expr="_goal.poi_name" /> -->
-                <assign location="poi_number" expr="_goal.poi_name" />
+                <assign location="poi_number" expr="_goal.poi_number" />
             </ros_action_handle_thread_start>
         </state>
 
@@ -44,13 +44,13 @@
                     <assign location="status" expr="MOVING" />
                 </if>
             </onentry>
-            <ros_action_handle_cancel name="act_srv" target="idle" cond="_event.goal_id == goal_id" >
+            <!-- <ros_action_handle_cancel name="act_srv" target="idle" cond="_event.goal_id == goal_id" >
                 <assign location="counter" expr="0" />
                 <assign location="status" expr="ABORTED" />
-            </ros_action_handle_cancel>
+            </ros_action_handle_cancel> -->
             <transition cond="status == GOAL_REACHED" target="idle">
                 <ros_action_succeed name="act_srv" goal_id="goal_id">
-                    <field name="is_ok" expr='"true"' />
+                    <field name="is_ok" expr="true" />
                 </ros_action_succeed>
             </transition>
             <transition target="execute">
@@ -67,7 +67,7 @@
         <!-- <data id="poi_name" type="string" expr="" /> -->
         <data id="poi_number" type="int32" expr="0" />
         <!-- Keep track of which thread is in use -->
-        <data id="thread_0_busy" type="bool" expr="False" />
+        <data id="thread_0_busy" type="bool" expr="false" />
         <data id="thread_to_start" type="int32" expr="-1" />
         <data id="thread_to_stop" type="int32" expr="-1" />
     </datamodel>
@@ -78,20 +78,20 @@
             <!-- <assign location="poi_name" expr="_goal.poi_name" /> -->
             <assign location="poi_number" expr="_goal.poi_number" />
         </ros_action_handle_goal>
-        <ros_action_handle_cancel name="act_srv" target="cancel_goal"> 
+        <!-- <ros_action_handle_cancel name="act_srv" target="cancel_goal"> 
             <assign location="goal_id" expr="_action.goal_id" />
-        </ros_action_handle_cancel>
+        </ros_action_handle_cancel> -->
         <ros_action_handle_thread_free name="act_srv" target="idle"> 
             <if cond="_event.thread_id == 0">
-                <assign location="thread_0_busy" expr="False" />
+                <assign location="thread_0_busy" expr="false" />
             </if>
         </ros_action_handle_thread_free>
     </state>
 
     <state id="check_goal">
         <onentry>
-            <if cond="thread_0_busy == False">
-                <assign location="thread_0_busy" expr="True" />
+            <if cond="thread_0_busy == false">
+                <assign location="thread_0_busy" expr="true" />
                 <assign location="thread_to_start" expr="0" />
             <else />
                 <assign location="thread_to_start" expr="-1" />
@@ -103,7 +103,8 @@
                 <!-- The thread ID is appended as an additional param in the send event.
                 It will be handled on the thread side -->
                 <ros_action_start_thread name="act_srv" thread_id="thread_to_start" goal_id="goal_id"> 
-                    <field name="poi_name" expr="poi_name" />
+                    <!-- <field name="poi_name" expr="poi_name" /> -->
+                    <field name="poi_number" expr="poi_number" />
                 </ros_action_start_thread>
             <else />
                 <ros_action_reject_goal name="act_srv" goal_id="goal_id" />
@@ -111,10 +112,10 @@
         </transition>
     </state>
 
-    <state id="cancel_goal">
+    <!-- <state id="cancel_goal">
         <onentry>
-            <if cond="thread_0_busy == False">
-                <assign location="thread_0_busy" expr="True" />
+            <if cond="thread_0_busy == false">
+                <assign location="thread_0_busy" expr="true" />
                 <assign location="thread_to_stop" expr="-1" />
             <else />
                 <assign location="thread_to_stop" expr="0" />
@@ -129,6 +130,6 @@
                 <ros_action_reject_goal name="act_srv" goal_id="goal_id" />
             </if>
         </transition>
-    </state>
+    </state> -->
 
 </scxml>

@@ -6,7 +6,7 @@
   initial="idle">
 
 	<datamodel>
-		<data id="is_followed" type="Bool" expr="true" />
+		<data id="is_followed" type="bool" expr="true" />
 		<data id="counter" type="int32" expr="0" />
 	</datamodel>
 
@@ -14,9 +14,9 @@
 
   <state id="idle">
     <onentry>
+      <assign location="is_followed" expr="(counter % 2) == 1"/>
+      <assign location="counter" expr="counter + 1"/>
       <ros_topic_publish name="/PeopleDetectorFilterComponent/is_followed">
-        <assign location="is_followed" expr="(counter % 2) === 1"/>
-        <assign location="counter" expr="counter + 1"/>
         <!-- <script>
           random = (Math.floor(Math.random() * 100)) % 2; 
           is_followed = random === 1; 

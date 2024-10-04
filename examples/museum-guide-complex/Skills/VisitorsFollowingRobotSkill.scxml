@@ -12,7 +12,7 @@
     </datamodel>
 
     <!-- VisitorsFollowingRobotSkill is a server for tick from the ROS2Condition plugin-->
-    <ros_service_server service="/VisitorsFollowingRobotSkill/tick" type ="bt_interfaces_dummy/TickCondition"/>
+    <ros_service_server service_name="/VisitorsFollowingRobotSkill/tick" type ="bt_interfaces_dummy/TickCondition"/>
     <!-- VisitorsFollowingRobotSkill is a subscriber for the /is_followed topic from the PeopleDetectorFilterComponent-->
     <ros_topic_subscriber topic="/PeopleDetectorFilterComponent/is_followed" type="std_msgs/Bool" />
 
