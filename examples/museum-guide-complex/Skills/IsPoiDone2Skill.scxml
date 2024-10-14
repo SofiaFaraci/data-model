@@ -7,7 +7,7 @@
 
     <datamodel>
         <!-- <data id="key" type="string" expr='"PoiDone"'/> -->
-        <data id="key" type="int32" expr="1"/>
+        <data id="key" type="int32" expr="2"/>
         <data id="value" type="int32" expr="0"/>
         <data id="SKILL_SUCCESS" type="int8" expr="0" />
         <data id="SKILL_FAILURE" type="int8" expr="1" />
