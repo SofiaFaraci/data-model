@@ -1,60 +1,38 @@
 <root main_tree_to_execute="BehaviorTree">
     <BehaviorTree ID="BehaviorTree">
-        <ReactiveSequence>
-            <SubTree ID="BatteryManagment"/>
-            <SubTree ID="PoiScheduler"/>
-            <SubTree ID="GoToPoi"/>
-        </ReactiveSequence>
-    </BehaviorTree>
-    <!-- ////////// -->
-    <BehaviorTree ID="GoToPoi">
-        <ReactiveSequence>
-            <SubTree ID="PeopleFollowing" name="PeopleFollowing"/>
-            <Action ID="ROS2Action" name="GoToPoiAction"/>
-            <Action ID="ROS2Action" name="SetCurrentPoiDone"/>
-        </ReactiveSequence>
-    </BehaviorTree>
-    <!-- ////////// -->
-    <BehaviorTree ID="BatteryManagment">
-        <ReactiveFallback>
-            <Condition ID="ROS2Condition" name="BatteryLevel"/>
-            <Action ID="ROS2Action" name="Alarm"/>
-        </ReactiveFallback>
-    </BehaviorTree>
-    <!-- ////////// -->
-    <BehaviorTree ID="PoiScheduler">
-        <Fallback>
+        <!-- Every Sequence and Fallback is considered Reactive from AS2FM -->
+        <Sequence>
+            <!-- ///// SubTree BatteryManagment ///// -->
+            <Fallback>
+                <Condition ID="ROS2Condition" name="BatteryLevel" service_name="/BatteryLevelSkill/tick"/>
+                <Action ID="ROS2Action" name="Alarm" service_name="/AlarmSkill/tick"/>
+            </Fallback>
+            <!-- ///// SubTree PoiScheduler ///// -->
+            <Fallback>
+                <Sequence>
+                    <Inverter>
+                        <Condition ID="ROS2Condition" name="IsPoiDone1" service_name="/IsPoiDone1Skill/tick"/>
+                    </Inverter>
+                    <Action ID="ROS2Action" name="SetPoi1" service_name="/SetPoi1Skill/tick"/>
+                </Sequence>
+                <Sequence>
+                    <Inverter>
+                        <Condition ID="ROS2Condition" name="IsPoiDone2" service_name="/IsPoiDone2Skill/tick"/>
+                    </Inverter>
+                    <Action ID="ROS2Action" name="SetPoi2" service_name="/SetPoi2Skill/tick"/>
+                </Sequence>
+                <Action ID="ROS2Action" name="Reset" service_name="/Reset/tick"/>
+            </Fallback>
+            <!-- ///// SubTree Navigation ///// -->
             <Sequence>
-                <Inverter>
-                    <Condition ID="ROS2Condition" name="IsPoiDone1"/>
-                </Inverter>
-                <Action ID="ROS2Action" name="SetPoi1"/>
+                <Fallback>
+                    <Condition ID="ROS2Condition" name="VisitorsFollowingRobot" service_name="/VisitorsFollowingRobot/tick"/>
+                    <Action ID="ROS2Action" name="Wait" service_name="/Wait/tick"/>
+                </Fallback>
+                <Action ID="ROS2Action" name="GoToPoiAction" service_name="/GoToPoiAction/tick"/>
+                <Action ID="ROS2Action" name="SetCurrentPoiDone" service_name="/SetCurrentPoiDone/tick"/>
             </Sequence>
-            <Sequence>
-                <Inverter>
-                    <Condition ID="ROS2Condition" name="IsPoiDone2"/>
-                </Inverter>
-                <Action ID="ROS2Action" name="SetPoi2"/>
-            </Sequence>
-        </Fallback>
+        </Sequence>
     </BehaviorTree>
-    <!-- ////////// -->
-    <BehaviorTree ID="PeopleFollowing">
-        <ReactiveFallback name="">
-            <Condition ID="ROS2Condition" name="VisitorsFollowingRobot"/>
-            <ReactiveSequence>
-                <Action ID="ROS2Action" name="RunTimer"/>
-                <Action ID="ROS2Action" name="Wait"/>
-            </ReactiveSequence>
-        </ReactiveFallback>
-    </BehaviorTree>
-    <!-- ////////// -->
-    <TreeNodesModel>
-        <SubTree ID="GoToPoi"/>
-        <SubTree ID="BatteryManagment"/>
-        <SubTree ID="PoiScheduler"/>
-        <SubTree ID="PeopleFollowing"/>
-    </TreeNodesModel>
     <!-- ////////// -->
 </root>
-
