@@ -26,7 +26,7 @@
             <ReactiveSequence>
                 <ReactiveFallback>
                     <Condition ID="ROS2Condition" name="VisitorsFollowingRobot" service_name="/VisitorsFollowingRobotSkill/tick"/>
-                    <Action ID="ROS2Action" name="Wait" service_name="/Wait/tick"/>
+                    <Action ID="ROS2Action" name="Wait" service_name="/WaitSkill/tick"/>
                 </ReactiveFallback>
                 <Action ID="ROS2Action" name="GoToPoiAction" service_name="/GoToPoiActionSkill/tick"/>
                 <Action ID="ROS2Action" name="SetCurrentPoiDone" service_name="/SetCurrentPoiDoneSkill/tick"/>
