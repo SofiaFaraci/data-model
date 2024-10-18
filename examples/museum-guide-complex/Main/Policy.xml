@@ -1,12 +1,11 @@
 <root main_tree_to_execute="BehaviorTree">
     <BehaviorTree ID="BehaviorTree">
-        <!-- Every Sequence and Fallback is considered Reactive from AS2FM -->
         <Sequence>
             <!-- ///// SubTree BatteryManagment ///// -->
-            <Fallback>
+            <ReactiveFallback>
                 <Condition ID="ROS2Condition" name="BatteryLevel" service_name="/BatteryLevelSkill/tick"/>
                 <Action ID="ROS2Action" name="Alarm" service_name="/AlarmSkill/tick"/>
-            </Fallback>
+            </ReactiveFallback>
             <!-- ///// SubTree PoiScheduler ///// -->
             <Fallback>
                 <Sequence>
@@ -21,17 +20,17 @@
                     </Inverter>
                     <Action ID="ROS2Action" name="SetPoi2" service_name="/SetPoi2Skill/tick"/>
                 </Sequence>
-                <Action ID="ROS2Action" name="Reset" service_name="/Reset/tick"/>
+                <Action ID="ROS2Action" name="Reset" service_name="/ResetSkill/tick"/>
             </Fallback>
             <!-- ///// SubTree Navigation ///// -->
-            <Sequence>
-                <Fallback>
-                    <Condition ID="ROS2Condition" name="VisitorsFollowingRobot" service_name="/VisitorsFollowingRobot/tick"/>
+            <ReactiveSequence>
+                <ReactiveFallback>
+                    <Condition ID="ROS2Condition" name="VisitorsFollowingRobot" service_name="/VisitorsFollowingRobotSkill/tick"/>
                     <Action ID="ROS2Action" name="Wait" service_name="/Wait/tick"/>
-                </Fallback>
-                <Action ID="ROS2Action" name="GoToPoiAction" service_name="/GoToPoiAction/tick"/>
-                <Action ID="ROS2Action" name="SetCurrentPoiDone" service_name="/SetCurrentPoiDone/tick"/>
-            </Sequence>
+                </ReactiveFallback>
+                <Action ID="ROS2Action" name="GoToPoiAction" service_name="/GoToPoiActionSkill/tick"/>
+                <Action ID="ROS2Action" name="SetCurrentPoiDone" service_name="/SetCurrentPoiDoneSkill/tick"/>
+            </ReactiveSequence>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
