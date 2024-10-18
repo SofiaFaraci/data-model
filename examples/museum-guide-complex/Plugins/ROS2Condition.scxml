@@ -20,17 +20,17 @@
     </ros_service_client>
 
     <state id="idle">
-        <transition event="bt_tick" target="handle_response">
+        <bt_tick target="handle_response">
             <ros_service_send_request name="srv_name"/>
-        </transition>
+        </bt_tick>
     </state>
 
     <state id="handle_response">
         <ros_service_handle_response name="srv_name" cond="_res.status == SKILL_SUCCESS" target="idle" >
-            <send event="bt_success" />
+            <bt_return_status status="SUCCESS" />
         </ros_service_handle_response>
         <ros_service_handle_response name="srv_name" cond="_res.status == SKILL_FAILURE" target="idle" >
-            <send event="bt_failure" />
+            <bt_return_status status="FAILURE" />
         </ros_service_handle_response>
     </state>
 

@@ -27,9 +27,9 @@
 
 
     <state id="idle">
-        <transition event="bt_tick" target="handle_response_tick">
+        <bt_tick target="handle_response_tick">
             <ros_service_send_request name="srv_name_tick"/>
-        </transition>
+        </bt_tick>
         <!-- <transition event="bt_halt" target="handle_response_halt">
             <ros_service_send_request name="srv_name_halt"/>
         </transition> -->
@@ -37,13 +37,13 @@
 
     <state id="handle_response_tick">
         <ros_service_handle_response name="srv_name_tick" cond="_res.status == SKILL_SUCCESS" target="idle" >
-            <send event="bt_success" />
+            <bt_return_status status="SUCCESS" />
         </ros_service_handle_response>
         <ros_service_handle_response name="srv_name_tick" cond="_res.status == SKILL_FAILURE" target="idle" >
-            <send event="bt_failure" />
+            <bt_return_status status="FAILURE" />
         </ros_service_handle_response>
         <ros_service_handle_response name="srv_name_tick" cond="_res.status == SKILL_RUNNING" target="idle" >
-            <send event="bt_running" />
+            <bt_return_status status="RUNNING" />
         </ros_service_handle_response>
     </state>
 
