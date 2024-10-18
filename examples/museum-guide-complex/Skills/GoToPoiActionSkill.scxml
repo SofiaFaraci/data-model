@@ -68,10 +68,19 @@
         <ros_action_handle_feedback name="go_to_poi_action" target="wait_result">
             <assign location="status" expr="_feedback.status" />
         </ros_action_handle_feedback>
-        <ros_action_handle_success_result name="go_to_poi_action" target="idle">
+        <ros_action_handle_success_result name="go_to_poi_action" target="goal_done">
             <assign location="result" expr="_wrapped_result.result.is_ok" />
         </ros_action_handle_success_result>
     </state>
+
+    <state id="goal_done">
+        <ros_service_handle_request name="/GoToPoiActionSkill/tick" target="wait_result">
+            <ros_service_send_response name="/GoToPoiActionSkill/tick">
+                <field name="is_ok" expr="true"/>
+                <field name="status" expr="SKILL_SUCCESS"/>
+            </ros_service_send_response>
+        </ros_service_handle_request>
+    </state>  
 
     <state id="send_failure">
         <onentry>
