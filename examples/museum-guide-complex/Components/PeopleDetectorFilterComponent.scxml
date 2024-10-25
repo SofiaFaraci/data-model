@@ -11,6 +11,7 @@
 	</datamodel>
 
   <ros_topic_publisher topic="/PeopleDetectorFilterComponent/is_followed" type="std_msgs/Bool" />
+  <ros_time_rate name="control_timer_2" rate_hz="1.0" />
 
   <state id="idle">
     <onentry>
@@ -24,7 +25,9 @@
         <field name="data" expr="is_followed" />
       </ros_topic_publish>
   </onentry>
-    <transition target="idle"/>
+  <ros_rate_callback name="control_timer_2" target="idle">
+  </ros_rate_callback>
+    <!-- <transition target="idle"/> -->
   </state>
 
 </scxml>
