@@ -36,6 +36,10 @@
                 <!-- <field name="poi_name" expr="poi_name"/> -->
                 <field name="poi_number" expr="poi_number"/>
             </ros_action_send_goal>
+            <ros_service_send_response name="/GoToPoiActionSkill/tick">
+                <field name="is_ok" expr="true"/>
+                <field name="status" expr="SKILL_RUNNING"/>
+            </ros_service_send_response>
         </ros_service_handle_response>
         <!-- <ros_service_handle_request name="/GoToPoiActionSkill/halt" target="idle">
             <ros_service_send_response name="/GoToPoiActionSkill/halt"/>
@@ -74,7 +78,7 @@
     </state>
 
     <state id="goal_done">
-        <ros_service_handle_request name="/GoToPoiActionSkill/tick" target="wait_result">
+        <ros_service_handle_request name="/GoToPoiActionSkill/tick" target="idle">
             <ros_service_send_response name="/GoToPoiActionSkill/tick">
                 <field name="is_ok" expr="true"/>
                 <field name="status" expr="SKILL_SUCCESS"/>

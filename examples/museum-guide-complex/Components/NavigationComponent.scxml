@@ -1,6 +1,7 @@
 <scxml initial="idle" version="1.0" name="NavigationComponent" model_src="" xmlns="http://www.w3.org/2005/07/scxml">
 
     <ros_action_server name="act_srv" action_name="/NavigationComponent/GoToPoi" type="navigation_interfaces_dummy/GoToPoi" />
+    <ros_time_rate name="control_timer_3" rate_hz="10.0" />
 
     <!--The action thread is a self-contained scxml entry, that will be translated to n. FSMs, depending on n_threads.-->
     <ros_action_thread name="act_srv" n_threads="1" initial="idle">
@@ -48,6 +49,7 @@
                 <assign location="counter" expr="0" />
                 <assign location="status" expr="ABORTED" />
             </ros_action_handle_cancel> -->
+            <ros_rate_callback name="control_timer_3" target="execute"/>
             <transition cond="status == GOAL_REACHED" target="idle">
                 <ros_action_succeed name="act_srv" goal_id="goal_id">
                     <field name="is_ok" expr="true" />
