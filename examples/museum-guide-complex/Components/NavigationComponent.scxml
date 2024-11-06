@@ -49,17 +49,21 @@
                 <assign location="counter" expr="0" />
                 <assign location="status" expr="ABORTED" />
             </ros_action_handle_cancel> -->
-            <ros_rate_callback name="control_timer_3" target="execute"/>
+            <ros_rate_callback name="control_timer_3" target="execute">
+                <ros_action_feedback name="act_srv" goal_id="goal_id">
+                    <field name="status" expr="status" />
+                </ros_action_feedback>
+            </ros_rate_callback>
             <transition cond="status == GOAL_REACHED" target="idle">
                 <ros_action_succeed name="act_srv" goal_id="goal_id">
                     <field name="is_ok" expr="true" />
                 </ros_action_succeed>
             </transition>
-            <transition target="execute">
+            <!-- <transition target="execute">
                 <ros_action_feedback name="act_srv" goal_id="goal_id">
                     <field name="status" expr="status" />
                 </ros_action_feedback>
-            </transition>
+            </transition> -->
         </state>
     </ros_action_thread>
 
