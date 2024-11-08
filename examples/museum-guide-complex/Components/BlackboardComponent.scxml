@@ -34,9 +34,6 @@
     <ros_service_handle_request name="/BlackboardComponent/SetInt" target="SetInt">
       <assign location="field_name" expr="_req.field_name"/>
       <assign location="value" expr="_req.value"/>
-      <ros_service_send_response name="/BlackboardComponent/SetInt">
-        <field name="is_ok" expr="true"/>
-      </ros_service_send_response>
     </ros_service_handle_request>
   </state>
 
